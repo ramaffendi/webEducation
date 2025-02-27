@@ -1,6 +1,7 @@
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import Education from "../../public/b725599ba3b23dad832920296eb9062e.png";
+const Education = "/b725599ba3b23dad832920296eb9062e.png";
+
 
 function About() {
   return (
