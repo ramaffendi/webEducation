@@ -1,5 +1,4 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import Login from "./Login";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -8,6 +7,7 @@ function Signup() {
   const location = useLocation();
   const navigate = useNavigate();
   const from = location.state?.from?.pathname || "/";
+
   const {
     register,
     handleSubmit,
@@ -22,7 +22,7 @@ function Signup() {
     };
     try {
       const res = await axios.post(
-        "http://localhost:4001/user/signup",
+        `${import.meta.env.VITE_REACT_API}/user/signup`,
         userInfo
       );
       toast.success("Signup Successfully");
@@ -35,102 +35,99 @@ function Signup() {
         })
       );
     } catch (err) {
-      if (err.response) {
-        toast.error("Error: " + err.response.data.message);
-      } else {
-        toast.error("An unexpected error occurred. Please try again later.");
-      }
+      toast.error(err.response?.data?.message || "Something went wrong.");
     }
   };
 
   return (
-    <div className="flex h-screen items-center justify-center">
-      <div className="w-[600px]">
-        <div className="modal-box">
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <Link
-              to="/"
-              className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-            >
+    <div className="flex h-screen items-center justify-center bg-gray-900 text-white">
+      <div className="bg-gray-800 p-6 rounded-lg shadow-lg max-w-md w-full">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          {/* Close Button */}
+          <div className="flex justify-end">
+            <Link to="/" className="text-gray-400 hover:text-red-500 text-xl">
               ✕
             </Link>
+          </div>
 
-            <h3 className="font-bold text-lg">Signup</h3>
-            {/* Fullname */}
-            <div className="mt-4 space-y-2">
-              <label>Name</label>
-              <input
-                type="text"
-                placeholder="Enter your fullname"
-                className="input input-bordered w-80"
-                {...register("fullname", { required: "Name is required" })}
-              />
-              {errors.fullname && (
-                <span className="text-sm text-red-500">
-                  {errors.fullname.message}
-                </span>
-              )}
-            </div>
-            {/* Email */}
-            <div className="mt-4 space-y-2">
-              <label>Email</label>
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="input input-bordered w-80"
-                {...register("email", {
-                  required: "Email is required",
-                  pattern: {
-                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                    message: "Invalid email format",
-                  },
-                })}
-              />
-              {errors.email && (
-                <span className="text-sm text-red-500">
-                  {errors.email.message}
-                </span>
-              )}
-            </div>
-            {/* Password */}
-            <div className="mt-4 space-y-2">
-              <label>Password</label>
-              <input
-                type="password"
-                placeholder="Enter your password"
-                className="input input-bordered w-80"
-                {...register("password", {
-                  required: "Password is required",
-                  minLength: {
-                    value: 6,
-                    message: "Password must be at least 6 characters long",
-                  },
-                })}
-              />
-              {errors.password && (
-                <span className="text-sm text-red-500">
-                  {errors.password.message}
-                </span>
-              )}
-            </div>
-            {/* Button */}
-            <div className="flex justify-around mt-4">
-              <button className="btn btn-primary">Signup</button>
-              <p className="text-xl">
-                Have account?{" "}
-                <button
-                  className="underline text-blue-500 cursor-pointer"
-                  onClick={() =>
-                    document.getElementById("my_modal_3").showModal()
-                  }
-                >
-                  Login
-                </button>
+          <h3 className="text-2xl font-bold text-center">Signup</h3>
+
+          {/* Fullname */}
+          <div>
+            <label className="block text-gray-300">Full Name</label>
+            <input
+              type="text"
+              placeholder="Enter your fullname"
+              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 outline-none"
+              {...register("fullname", { required: "Name is required" })}
+            />
+            {errors.fullname && (
+              <p className="text-red-400 text-sm mt-1">
+                {errors.fullname.message}
               </p>
-              <Login />
-            </div>
-          </form>
-        </div>
+            )}
+          </div>
+
+          {/* Email */}
+          <div>
+            <label className="block text-gray-300">Email</label>
+            <input
+              type="email"
+              placeholder="Enter your email"
+              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 outline-none"
+              {...register("email", {
+                required: "Email is required",
+                pattern: {
+                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                  message: "Invalid email format",
+                },
+              })}
+            />
+            {errors.email && (
+              <p className="text-red-400 text-sm mt-1">
+                {errors.email.message}
+              </p>
+            )}
+          </div>
+
+          {/* Password */}
+          <div>
+            <label className="block text-gray-300">Password</label>
+            <input
+              type="password"
+              placeholder="Enter your password"
+              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 outline-none"
+              {...register("password", {
+                required: "Password is required",
+                minLength: {
+                  value: 6,
+                  message: "Password must be at least 6 characters long",
+                },
+              })}
+            />
+            {errors.password && (
+              <p className="text-red-400 text-sm mt-1">
+                {errors.password.message}
+              </p>
+            )}
+          </div>
+
+          {/* Signup Button */}
+          <button className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-700 transition">
+            Signup
+          </button>
+
+          {/* Login Redirect */}
+          <p className="text-center text-gray-400 mt-2">
+            Already have an account?{" "}
+            <button
+              className="text-blue-400 hover:underline"
+              onClick={() => navigate("/login")}
+            >
+              Login
+            </button>
+          </p>
+        </form>
       </div>
     </div>
   );

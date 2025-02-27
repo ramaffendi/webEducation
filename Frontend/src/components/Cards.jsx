@@ -1,12 +1,24 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthProvider";
+import toast from "react-hot-toast";
 
 function Cards({ item }) {
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+  const [authUser] = useAuth(); // Ambil status login dari AuthProvider
 
   const handleCardClick = () => {
-    // Pastikan menggunakan _id, bukan id
+    if (!authUser) {
+      // Jika belum login, tampilkan toast error
+      toast.error("Anda harus login terlebih dahulu untuk melihat course!", {
+        duration: 3000,
+        position: "top-center",
+      });
+      return;
+    }
+
+    // Jika sudah login, navigasikan ke halaman detail course
     if (item && item._id) {
       navigate(`/course/${item._id}`);
     } else {
@@ -28,13 +40,10 @@ function Cards({ item }) {
             </div>
           )}
 
-          <iframe
-            src={item.videoUrl}
-            title={item.name}
-            className="w-full h-56"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
+          <img
+            src="../../public/icons8-play-100.png" // Pastikan gambar berada di folder public
+            alt={item.name}
+            className="w-32 h-32 object-cover rounded-lg shadow-md"
             onLoad={() => setIsLoading(false)}
             loading="lazy"
           />
@@ -47,9 +56,8 @@ function Cards({ item }) {
           </h2>
           <p>{item.title}</p>
           <div className="card-actions justify-between">
-            <div className="badge badge-outline">${item.price}</div>
             <div className="cursor-pointer px-2 py-1 rounded-full border-[2px] hover:bg-pink-500 hover:text-white duration-200">
-              Buy Now
+              Play
             </div>
           </div>
         </div>

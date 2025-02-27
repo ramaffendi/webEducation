@@ -1,25 +1,34 @@
 import { useAuth } from "../context/AuthProvider";
+import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 function Logout() {
   const [authUser, setAuthUser] = useAuth();
+  const navigate = useNavigate(); // Gunakan useNavigate untuk redirect
+
   const handleLogout = () => {
     try {
+      // Hapus token dari localStorage
+      localStorage.removeItem("Users");
+      localStorage.removeItem("token"); // Jika token disimpan dengan key 'token'
+
+      // Reset state user
       setAuthUser({
         ...authUser,
         user: null,
       });
-      localStorage.removeItem("Users");
+
       toast.success("Logout successfully");
 
+      // Redirect ke halaman login atau home tanpa reload
       setTimeout(() => {
-        window.location.reload();
-      }, 3000);
+        navigate("/login"); // Bisa diganti ke "/"
+      }, 1000);
     } catch (error) {
       toast.error("Error: " + error);
-      setTimeout(() => {}, 2000);
     }
   };
+
   return (
     <div>
       <button

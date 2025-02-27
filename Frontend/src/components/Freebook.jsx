@@ -11,10 +11,9 @@ function Freebook() {
   useEffect(() => {
     const getBook = async () => {
       try {
-        const res = await axios.get("http://localhost:4001/book");
-        const data = res.data.filter((data) => data.category === "Education");
-        console.log("datasaya", data);
-        setBook(data);
+        const res = await axios.get(`${import.meta.env.VITE_REACT_API}/book`);
+        console.log("datasaya", res);
+        setBook(res.data);
       } catch (error) {
         console.log(error);
       }

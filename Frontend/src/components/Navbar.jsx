@@ -3,6 +3,8 @@ import { useState } from "react";
 import Login from "./Login";
 import Logout from "./Logout";
 import { useAuth } from "../context/AuthProvider";
+import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 function Navbar() {
   const [authUser] = useAuth();
@@ -42,13 +44,30 @@ function Navbar() {
         <a href="/">Home</a>
       </li>
       <li>
-        <a href="/course">Course</a>
+        <a
+          href={authUser ? "/course" : "#"}
+          onClick={(e) => {
+            if (!authUser) {
+              e.preventDefault(); // Mencegah navigasi
+              toast.error(
+                "Anda harus login terlebih dahulu untuk mengakses Course!",
+                {
+                  duration: 1000,
+                  position: "top-center",
+                }
+              );
+            }
+          }}
+        >
+          Course
+        </a>
+      </li>
+
+      <li>
+        <Link to="/contactus">Contact Us</Link>
       </li>
       <li>
-        <a>Contact</a>
-      </li>
-      <li>
-        <a>About</a>
+        <Link to="/about">About</Link>
       </li>
     </>
   );

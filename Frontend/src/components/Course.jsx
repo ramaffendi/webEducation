@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import Cards from "./Cards";
 import axios from "axios";
-import { Link } from "react-router-dom";
+
 function Course() {
   const [book, setBook] = useState([]);
   useEffect(() => {
     const getBook = async () => {
       try {
-        const res = await axios.get("http://localhost:4001/book");
+        const res = await axios.get(`${import.meta.env.VITE_REACT_API}/book`);
         console.log("halo", res.data);
         setBook(res.data);
       } catch (error) {
@@ -33,13 +33,8 @@ function Course() {
             animi eos aut. Nobis quisquam reiciendis sunt quis sed magnam
             consequatur!
           </p>
-          <Link to="/">
-            <button className="mt-6 bg-pink-500 text-white px-4 py-2 rounded-md hover:bg-pink-700 duration-300">
-              Back
-            </button>
-          </Link>
         </div>
-        <div className="mt-12 grid grid-cols-1 md:grid-cols-4">
+        <div className="mt-12 grid grid-cols-1 md:grid-cols-4 gap-6">
           {book.map((item, i) => (
             <Cards key={i} item={item} />
           ))}
