@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthProvider";
 import toast from "react-hot-toast";
+import { IconsPlay } from "../../public/icons8-play-100.png";
 
 function Cards({ item }) {
   const [isLoading, setIsLoading] = useState(true);
@@ -41,7 +42,7 @@ function Cards({ item }) {
           )}
 
           <img
-            src="../../public/icons8-play-100.png" // Pastikan gambar berada di folder public
+            src={IconsPlay} // Pastikan gambar berada di folder public
             alt={item.name}
             className="w-32 h-32 object-cover rounded-lg shadow-md"
             onLoad={() => setIsLoading(false)}

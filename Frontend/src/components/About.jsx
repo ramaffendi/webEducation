@@ -1,5 +1,6 @@
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import Education from "../../public/b725599ba3b23dad832920296eb9062e.png";
 
 function About() {
   return (
@@ -30,7 +31,7 @@ function About() {
           {/* Bagian Kanan - Gambar dengan Animasi */}
           <div className="flex justify-center">
             <img
-              src="../../public/b725599ba3b23dad832920296eb9062e.png"
+              src={Education}
               alt="About Us"
               className="rounded-lg shadow-lg border-gray-700 w-full max-w-xs md:max-w-sm 
               animate-fadeInRight transition-transform duration-700 ease-in-out hover:scale-105"
