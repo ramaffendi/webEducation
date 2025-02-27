@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthProvider";
 import toast from "react-hot-toast";
-import { IconsPlay } from "../../public/icons8-play-100.png";
+const IconsPlay = "/icons8-play-100.png";
 
 function Cards({ item }) {
   const [isLoading, setIsLoading] = useState(true);
